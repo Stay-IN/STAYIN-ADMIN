@@ -30,6 +30,23 @@ class AuthService {
     logger.debug(response);
     return response;
   }
+  async managerlogin(username, password) {
+    const response = await NetworkServices.post(
+      `${Config.SERVER_URL}/managerlogin`,
+      {
+        username,
+        password
+      }
+    );
+
+    if (response.success) {
+      localStorage.setItem(AUTH_LOCALSTORAGEKEY, JSON.stringify(response.data));
+      this._auth = response.data;
+    }
+
+    logger.debug(response);
+    return response;
+  }
 
   isAuthenticated() {
     if (!this._auth) {
@@ -55,6 +72,27 @@ class AuthService {
   async logout() {
     localStorage.removeItem(AUTH_LOCALSTORAGEKEY);
     this._auth = undefined;
+  }
+
+    /**
+   * @param {string} username
+   * @param {string} password
+   */
+  async signup(firstname,lastname,username, password) {
+    const response = await NetworkServices.post(`${Config.SERVER_URL}/signup`, {
+      firstname,
+      lastname,
+      username,
+      password
+    });
+
+    if (response.success) {
+      localStorage.setItem(AUTH_LOCALSTORAGEKEY, JSON.stringify(response.data));
+      this._auth = response.data;
+    }
+
+    logger.debug(response);
+    return response;
   }
 }
 

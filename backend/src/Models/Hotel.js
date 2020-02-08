@@ -15,8 +15,7 @@ const hotelSchema = new Schema(
     },
     city: {
       type: mongoose.Schema.Types.String,
-      require: true,
-      unique: true
+      require: true
     },
     pincode: {
       type: mongoose.Schema.Types.Number,
@@ -51,7 +50,8 @@ const hotelSchema = new Schema(
     image: {
       type: mongoose.Schema.Types.String,
       require: true
-    }
+    },
+    date: { type: Date, default: Date.now }
   },
   SchemaOptions
 );

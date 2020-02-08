@@ -10,7 +10,6 @@ const addHotel = async (req, res, next) => {
     mobile,
     star,
     email,
-    password,
     pancard,
     description,
     image
@@ -40,9 +39,6 @@ const addHotel = async (req, res, next) => {
   if (!email) {
     message.push('email is required');
   }
-  if (!password) {
-    message.push('Password is required');
-  }
   if (!pancard) {
     message.push('pancard is required');
   }
@@ -55,7 +51,10 @@ const addHotel = async (req, res, next) => {
 
   if (
     !email ||
+<<<<<<< HEAD
     !password ||
+=======
+>>>>>>> 36b7db113f3c92d40854ae905be835245f63121e
     !hotelName ||
     !address ||
     !city ||
@@ -64,7 +63,6 @@ const addHotel = async (req, res, next) => {
     !state ||
     !star ||
     !email ||
-    !password ||
     !pancard ||
     !description ||
     !image
@@ -78,6 +76,7 @@ const addHotel = async (req, res, next) => {
     });
     return;
   }
+<<<<<<< HEAD
   let hotel = await Hotel.findOne({ email, pancard, mobile });
   if (hotel) {
     res.json({
@@ -90,30 +89,73 @@ const addHotel = async (req, res, next) => {
     return;
   }
   hotel = await new Hotel({
+=======
+
+  const hotelData = {
+>>>>>>> 36b7db113f3c92d40854ae905be835245f63121e
     hotelName,
     address,
     city,
     pincode,
+<<<<<<< HEAD
     mobile,
       state,
       star,
+=======
+    state,
+    mobile,
+    star,
+>>>>>>> 36b7db113f3c92d40854ae905be835245f63121e
     email,
-    password,
     pancard,
     description,
     image
-  }).save();
-  res.status(200);
-  res.json({
-    code: 200,
-    data: {
-      hotel
-    },
-    success: true
-  });
-  return;
-};
+  };
 
+  try {
+    const Uhotel = await Hotel.findOne({ email });
+    if (Uhotel) {
+      hotel = await Hotel.findOneAndUpdate(
+        { email },
+        { $set: hotelData },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        code: 200,
+        data: {
+          message: ['Hotel Updated'],
+          hotel
+        },
+        success: true
+      });
+    } else {
+      const pancardUnick = await Hotel.findOne({ pancard });
+      if (pancardUnick) {
+        return res.status(200).json({
+          code: 200,
+          data: {
+            message: ['pancard must unique']
+          },
+          success: false
+        });
+      }
+      hotel = await new Hotel(hotelData).save();
+      res.status(200);
+      res.json({
+        code: 200,
+        data: {
+          message: ['Hotel Added'],
+          hotel
+        },
+        success: true
+      });
+      return;
+    }
+  } catch (error) {
+    res.json({ msg: 'server error', error });
+  }
+};
 
 const getHotels = async (req, res, next) => {
   const hotels = await Hotel.find();
@@ -122,9 +164,9 @@ const getHotels = async (req, res, next) => {
     data: {
       hotels
     },
-    success: true,
-  })
-}
+    success: true
+  });
+};
 
 const getHotelsById = async (req, res, next) => {
   const { _id } = req.params;
@@ -133,20 +175,52 @@ const getHotelsById = async (req, res, next) => {
     res.json({
       code: 200,
       data: {
+<<<<<<< HEAD
         hotels,
+=======
+        hotels
+>>>>>>> 36b7db113f3c92d40854ae905be835245f63121e
       },
-      success: true,
-    })
+      success: true
+    });
   } else {
     res.json({
       code: 200,
       data: {
         message: ['No Hotel Found']
       },
-      success: false,
-    })
+      success: false
+    });
   }
-}
+};
+
+const searchHotel = async (req, res, next) => {
+  const { search } = req.params;
+  const hotels = await Hotel.find({
+    $or: [
+      { hotelName: { $regex: search, $options: 'i' } },
+      { city: { $regex: search, $options: 'i' } }
+    ]
+  });
+  return res.json({
+    code: 200,
+    data: {
+      hotels
+    },
+    success: true
+  });
+};
+
+const deleteHotelsById = async (req, res, next) => {
+  const { _id } = req.params;
+  await Hotel.findOneAndDelete({ _id });
+  res.json({
+    code: 200,
+    data: {
+      message: ['Hotel Removed']
+    }
+  });
+};
 
 const searchHotel = async(req,res,next)=>{
   const { search } = req.params;
@@ -169,5 +243,10 @@ module.exports = {
   addHotel,
   getHotels,
   getHotelsById,
+<<<<<<< HEAD
   searchHotel
+=======
+  searchHotel,
+  deleteHotelsById
+>>>>>>> 36b7db113f3c92d40854ae905be835245f63121e
 };
