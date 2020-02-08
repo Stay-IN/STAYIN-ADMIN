@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "portal": "cd portal && npm start && cd ..",
-    "install": "cd portal && npm install && cd .. && cd backend && npm install && cd ..",
+    "in-stall": "cd portal && npm install && cd .. && cd backend && npm install && cd ..",
     "backend": "cd backend && npm start && cd ..",
     "start": "npm run start:backend",
     "build:portal": "cd portal && yarn build && cd --",
