@@ -72,28 +72,64 @@ const addHotel = async (req, res, next) => {
     });
     return;
   }
-  hotel = await new Hotel({
+
+  const hotelData = {
     hotelName,
     address,
     city,
     pincode,
-    mobile,
     state,
+    mobile,
     star,
     email,
     pancard,
     description,
     image
-  }).save();
-  res.status(200);
-  res.json({
-    code: 200,
-    data: {
-      hotel
-    },
-    success: true
-  });
-  return;
+  };
+
+  try {
+    const Uhotel = await Hotel.findOne({ email });
+    if (Uhotel) {
+      hotel = await Hotel.findOneAndUpdate(
+        { email },
+        { $set: hotelData },
+        { new: true }
+      );
+
+      return res.status(200).json({
+        code: 200,
+        data: {
+          message: ['Hotel Updated'],
+          hotel
+        },
+        success: true
+      });
+    } else {
+      const pancardUnick = await Hotel.findOne({ pancard });
+      if (pancardUnick) {
+        return res.status(200).json({
+          code: 200,
+          data: {
+            message: ['pancard must unique']
+          },
+          success: false
+        });
+      }
+      hotel = await new Hotel(hotelData).save();
+      res.status(200);
+      res.json({
+        code: 200,
+        data: {
+          message: ['Hotel Added'],
+          hotel
+        },
+        success: true
+      });
+      return;
+    }
+  } catch (error) {
+    res.json({ msg: 'server error', error });
+  }
 };
 
 const getHotels = async (req, res, next) => {
@@ -146,9 +182,21 @@ const searchHotel = async (req, res, next) => {
   });
 };
 
+const deleteHotelsById = async (req, res, next) => {
+  const { _id } = req.params;
+  await Hotel.findOneAndDelete({ _id });
+  res.json({
+    code: 200,
+    data: {
+      message: ['Hotel Removed']
+    }
+  });
+};
+
 module.exports = {
   addHotel,
   getHotels,
   getHotelsById,
-  searchHotel
+  searchHotel,
+  deleteHotelsById
 };

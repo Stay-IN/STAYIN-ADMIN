@@ -12,5 +12,6 @@ router.post('/addhotel', HotelController.addHotel);
 router.get('/hotels', HotelController.getHotels);
 router.get('/hotels/:_id', HotelController.getHotelsById);
 router.get('/hotels/search/:search', HotelController.searchHotel);
+router.delete('/delhotel/:_id', HotelController.deleteHotelsById);
 
 module.exports = router;

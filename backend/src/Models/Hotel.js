@@ -50,7 +50,8 @@ const hotelSchema = new Schema(
     image: {
       type: mongoose.Schema.Types.String,
       require: true
-    }
+    },
+    date: { type: Date, default: Date.now }
   },
   SchemaOptions
 );

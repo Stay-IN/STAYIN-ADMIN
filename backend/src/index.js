@@ -20,7 +20,9 @@ const server = (async () => {
   try {
     await mongoose.connect(config.get('db'), {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false
     });
     debug('Connected to database');
     app.use(cors());

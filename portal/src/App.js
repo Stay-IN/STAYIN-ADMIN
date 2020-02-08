@@ -1,42 +1,36 @@
-import React from 'react';
-import Root from 'Pages/index';
-
-import { createMuiTheme } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import { Chart } from 'react-chartjs-2';
 import { ThemeProvider } from '@material-ui/styles';
+import validate from 'validate.js';
 
-import blue from '@material-ui/core/colors/blue';
-import pink from '@material-ui/core/colors/pink';
+import { chartjs } from './helpers';
+import theme from './theme';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import './assets/scss/index.scss';
+import validators from './common/validators';
+import Routes from './Routes';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    secondary: pink
-  },
-  typography: {
-    fontFamily: [
-      'Google Sans',
-      'Roboto',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"'
-    ].join(',')
-  }
+const browserHistory = createBrowserHistory();
+
+Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
+  draw: chartjs.draw
 });
 
-class App extends React.Component {
+validate.validators = {
+  ...validate.validators,
+  ...validators
+};
+
+export default class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Root />
+        <Router history={browserHistory}>
+          <Routes />
+        </Router>
       </ThemeProvider>
     );
   }
 }
-
-export default App;

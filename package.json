@@ -12,17 +12,20 @@
     "portal/node_modules"
   ],
   "scripts": {
-    "start:portal": "cd portal && npm start && cd ..",
+    "portal": "cd portal && npm start && cd ..",
     "install": "cd portal && npm install && cd .. && cd backend && npm install && cd ..",
-    "start:backend": "cd backend && npm start && cd ..",
+    "backend": "cd backend && npm start && cd ..",
     "start": "npm run start:backend",
     "build:portal": "cd portal && yarn build && cd --",
-    "build": "npm run build:portal && cd --"
+    "build": "npm run build:portal && cd --",
+    "stayin": "concurrently \"npm run portal\" \"npm run backend\""
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "express-firebase": "^1.1.1"
+    "concurrently": "^5.1.0",
+    "express-firebase": "^1.1.1",
+    "moment": "^2.24.0"
   }
 }
