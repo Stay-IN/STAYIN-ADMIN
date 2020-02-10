@@ -21,6 +21,7 @@ class Layout extends Component {
     city: '',
     pincode: '',
     mobile: '',
+    price: '',
     state: '',
     star: '',
     email: '',
@@ -49,6 +50,7 @@ class Layout extends Component {
       city,
       pincode,
       mobile,
+      price,
       state,
       star,
       email,
@@ -68,6 +70,7 @@ class Layout extends Component {
       city,
       pincode,
       mobile,
+      price,
       state,
       star,
       email,
@@ -93,6 +96,7 @@ class Layout extends Component {
       city: '',
       pincode: '',
       mobile: '',
+      price: '',
       state: '',
       star: '',
       email: '',
@@ -227,7 +231,19 @@ class Layout extends Component {
                 onChange={this.handleInput}
               />
             </Grid>
-            <Grid item xs={12} md={12} lg={12} sm={12}>
+            <Grid item xs={12} md={6} lg={6} sm={12}>
+              <TextField
+                id="price"
+                name="price"
+                className={classes.textField}
+                variant="outlined"
+                label="Room price"
+                fullWidth
+                value={this.state.price}
+                onChange={this.handleInput}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} lg={6} sm={12}>
               <TextField
                 id="email"
                 name="email"

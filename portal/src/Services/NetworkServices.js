@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { ApplicationError, LogServices, AuthServices } from 'Services';
 import Config from 'Config';
 import expressFirebase from 'express-firebase';
@@ -140,8 +140,8 @@ class NetworkService {
     }
   }
 
-  async uploadFile(imageName,imageSource){
-    const imageUrl = await expressFirebase.uploadFile(imageName,imageSource);
+  async uploadFile(imageName, imageSource) {
+    const imageUrl = await expressFirebase.uploadFile(imageName, imageSource);
     return imageUrl;
   }
 }

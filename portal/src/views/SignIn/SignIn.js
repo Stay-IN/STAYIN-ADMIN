@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { AuthServices } from 'Services';
-import { Snackbar } from 'components';
 
 const schema = {
   username: {
@@ -181,7 +180,9 @@ const SignIn = props => {
       const message = response.data.message;
       alert(message[0]);
     } else {
-      history.push('/hotels');
+      const id = response.data.id;
+      console.log(id);
+      history.push(`/hotels/${id}`);
     }
   };
 

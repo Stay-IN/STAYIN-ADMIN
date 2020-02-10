@@ -8,6 +8,7 @@ const addHotel = async (req, res, next) => {
     pincode,
     state,
     mobile,
+    price,
     star,
     email,
     pancard,
@@ -29,6 +30,9 @@ const addHotel = async (req, res, next) => {
   }
   if (!mobile) {
     message.push('mobile is required');
+  }
+  if (!price) {
+    message.push('price is required');
   }
   if (!state) {
     message.push('state is required');
@@ -56,6 +60,7 @@ const addHotel = async (req, res, next) => {
     !city ||
     !pincode ||
     !mobile ||
+    !price ||
     !state ||
     !star ||
     !email ||
@@ -80,6 +85,7 @@ const addHotel = async (req, res, next) => {
     pincode,
     state,
     mobile,
+    price,
     star,
     email,
     pancard,

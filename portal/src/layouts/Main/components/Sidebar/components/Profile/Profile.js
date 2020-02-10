@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import { Avatar, Typography } from '@material-ui/core';
+// import axios from 'axios';
+// import Config from 'Config';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,9 +24,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Profile = props => {
-  const { className, ...rest } = props;
+  const {
+    // match: { params },
+    className,
+    ...rest
+  } = props;
 
   const classes = useStyles();
+
+  // // useEffect(() => {
+  // async function name() {
+  //   const query = await new URLSearchParams(props.location.search);
+  //   const token = query.get('token');
+  //   console.log(token);
+  //   // const id = params.id;
+
+  //   // console.log(id);
+  //   // const response = await axios.get(`${Config.SERVER_URL}/manager/${id}`);
+  //   // console.log(response);
+  // }
+  // name();
+  // // }, []);
 
   const user = {
     name: 'Shen Zhi',
@@ -33,10 +53,7 @@ const Profile = props => {
   };
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <div {...rest} className={clsx(classes.root, className)}>
       <Avatar
         alt="Person"
         className={classes.avatar}
@@ -44,10 +61,7 @@ const Profile = props => {
         src={user.avatar}
         to="/settings"
       />
-      <Typography
-        className={classes.name}
-        variant="h4"
-      >
+      <Typography className={classes.name} variant="h4">
         {user.name}
       </Typography>
       <Typography variant="body2">{user.bio}</Typography>
@@ -56,7 +70,8 @@ const Profile = props => {
 };
 
 Profile.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  match: PropTypes.object
 };
 
 export default Profile;

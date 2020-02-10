@@ -38,6 +38,10 @@ const hotelSchema = new Schema(
       type: mongoose.Schema.Types.Number,
       require: true
     },
+    price: {
+      type: mongoose.Schema.Types.Number,
+      require: true
+    },
     pancard: {
       type: mongoose.Schema.Types.String,
       require: true,

@@ -199,10 +199,10 @@ const SignUp = props => {
       password
     });
     if (!response.data.success) {
-      const message = response.data.data.message;
+      const message = response.data.data.token;
       alert(message);
     } else {
-      const id = response._id;
+      const id = response.data.data.id;
       history.push(`/hotels/${id}`);
     }
   };

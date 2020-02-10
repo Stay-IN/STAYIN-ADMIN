@@ -41,6 +41,12 @@ const Routes = () => {
         layout={MainLayout}
         path="/hotels"
       />
+      <RouteWithLayout
+        component={ProductListView}
+        exact
+        layout={MainLayout}
+        path="/hotels/:id"
+      />
 
       <RouteWithLayout
         component={SignUpView}

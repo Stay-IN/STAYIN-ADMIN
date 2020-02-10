@@ -92,13 +92,15 @@ const managerlogin = async (req, res, next) => {
     username
   };
   const token = jwt.sign(JSON.stringify(authInfo), config.get('jwt').secret);
+  const id = manager._id;
   res.status(200);
   res.json({
     code: 200,
     data: {
       expiredOn,
       token,
-      username
+      username,
+      id
     },
     success: true
   });
@@ -214,29 +216,46 @@ const managersignup = async (req, res, next) => {
     username
   };
   const token = jwt.sign(JSON.stringify(authInfo), config.get('jwt').secret);
-  await new Manager({
+  const Msignup = await new Manager({
     name,
     address,
     mobile,
     username,
     password
   }).save();
+  const id = Msignup._id;
   res.status(200);
   res.json({
     code: 200,
     data: {
       expiredOn,
       token,
-      username
+      username,
+      id
     },
     success: true
   });
   return;
 };
 
+const getMById = async (req, res, next) => {
+  const { _id } = req.params;
+  const manager = await Manager.findOne({ _id });
+  if (manager) {
+    res.json({
+      code: 200,
+      data: {
+        manager
+      },
+      success: true
+    });
+  }
+};
+
 module.exports = {
   login,
   signup,
   managerlogin,
-  managersignup
+  managersignup,
+  getMById
 };
