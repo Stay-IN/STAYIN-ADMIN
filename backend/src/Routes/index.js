@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const multer = require('multer');
-const uuidv4 = require('uuid/v4');
 const DIR = './public/';
 
 const { Hotel } = require('Models');
@@ -29,7 +28,7 @@ const storage = multer.diskStorage({
       .toLowerCase()
       .split(' ')
       .join('-');
-    cb(null, uuidv4() + '-' + fileName);
+    cb(null, 'stayin' + '-' + fileName);
   }
 });
 
