@@ -1,5 +1,5 @@
 const { Hotel } = require('Models');
-const config = require('config');
+
 const addHotel = async (req, res, next) => {
   const {
     hotelName,
@@ -12,71 +12,8 @@ const addHotel = async (req, res, next) => {
     star,
     email,
     pancard,
-    description,
-    image
+    description
   } = req.body;
-  const message = [];
-  if (!hotelName) {
-    message.push('hotelname is required');
-  }
-  if (!address) {
-    message.push('address is required');
-  }
-  if (!city) {
-    message.push('city is required');
-  }
-  if (!pincode) {
-    message.push('pincode is required');
-  }
-  if (!mobile) {
-    message.push('mobile is required');
-  }
-  if (!price) {
-    message.push('price is required');
-  }
-  if (!state) {
-    message.push('state is required');
-  }
-  if (!star) {
-    message.push('star is required');
-  }
-  if (!email) {
-    message.push('email is required');
-  }
-  if (!pancard) {
-    message.push('pancard is required');
-  }
-  if (!description) {
-    message.push('description is required');
-  }
-  if (!image) {
-    message.push('upload your hotel images');
-  }
-
-  if (
-    !email ||
-    !hotelName ||
-    !address ||
-    !city ||
-    !pincode ||
-    !mobile ||
-    !price ||
-    !state ||
-    !star ||
-    !email ||
-    !pancard ||
-    !description ||
-    !image
-  ) {
-    res.json({
-      code: 401,
-      data: {
-        message
-      },
-      success: false
-    });
-    return;
-  }
 
   const hotelData = {
     hotelName,
@@ -89,10 +26,8 @@ const addHotel = async (req, res, next) => {
     star,
     email,
     pancard,
-    description,
-    image
+    description
   };
-
   try {
     const Uhotel = await Hotel.findOne({ email });
     if (Uhotel) {
@@ -110,28 +45,6 @@ const addHotel = async (req, res, next) => {
         },
         success: true
       });
-    } else {
-      const pancardUnick = await Hotel.findOne({ pancard });
-      if (pancardUnick) {
-        return res.status(200).json({
-          code: 200,
-          data: {
-            message: ['pancard must unique']
-          },
-          success: false
-        });
-      }
-      hotel = await new Hotel(hotelData).save();
-      res.status(200);
-      res.json({
-        code: 200,
-        data: {
-          message: ['Hotel Added'],
-          hotel
-        },
-        success: true
-      });
-      return;
     }
   } catch (error) {
     res.json({ msg: 'server error', error });

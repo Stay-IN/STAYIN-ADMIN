@@ -27,8 +27,10 @@ const server = (async () => {
     debug('Connected to database');
     app.use(cors());
     app.use(express.static(path.join(__dirname, '../../portal/build/')));
-    app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({ extended: false }));
+
+    app.use('/public', express.static('public'));
     app.use('/api/1.0', router);
     if (process.env.NODE_ENV === 'production') {
       app.use(portalServe);
@@ -42,3 +44,5 @@ const server = (async () => {
 })();
 
 module.exports = server;
+
+// "db": "mongodb+srv://demo:demo@doctorai-cjxxl.mongodb.net/test?retryWrites=true&w=majority",

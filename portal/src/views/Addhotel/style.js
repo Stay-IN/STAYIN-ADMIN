@@ -90,6 +90,10 @@ const style = theme => ({
   },
   buttontitle: {
     marginRight: theme.spacing(2)
+  },
+  formControl: {
+    margin: theme.spacing(5),
+    minWidth: 200
   }
 });
 export default style;

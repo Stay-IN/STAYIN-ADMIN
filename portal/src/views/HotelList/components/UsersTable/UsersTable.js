@@ -172,7 +172,10 @@ const UsersTable = props => {
                     </TableCell>
                     <TableCell>
                       <div className={classes.nameContainer}>
-                        <Avatar className={classes.avatar} src={user.image}>
+                        <Avatar
+                          className={classes.avatar}
+                          src={user.imgCollection[0]}
+                        >
                           {getInitials(user.hotelName)}
                         </Avatar>
                         <Typography variant="body1">

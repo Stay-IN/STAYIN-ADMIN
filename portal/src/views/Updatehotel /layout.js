@@ -27,7 +27,6 @@ class Layout extends Component {
     email: '',
     pancard: '',
     description: '',
-    image: '',
     message: '',
     variant: 'error',
     isChecking: false,
@@ -54,13 +53,10 @@ class Layout extends Component {
       star,
       email,
       pancard,
-      description,
-      image
+      description
     } = this.state;
 
     // Api Code
-
-    const hotelImageUrl = await HotelServices.addHotelImage(image.name, image);
 
     const response = await HotelServices.addHotel({
       hotelName,
@@ -73,8 +69,7 @@ class Layout extends Component {
       star,
       email,
       pancard,
-      description,
-      image: hotelImageUrl
+      description
     });
     if (!response.success) {
       const message = response.data.message;
@@ -98,18 +93,9 @@ class Layout extends Component {
       email: '',
       pancard: '',
       description: '',
-      image: '',
       isAdded: true,
       isChecking: false
     });
-  };
-
-  handleImage = e => {
-    this.setState({ image: e.target.files[0] });
-  };
-
-  state = {
-    hotels: []
   };
 
   async componentDidMount() {
@@ -126,7 +112,6 @@ class Layout extends Component {
       star,
       pancard,
       description,
-      image,
       address,
       email
     } = hotelData;
@@ -142,8 +127,7 @@ class Layout extends Component {
         star,
         email,
         pancard,
-        description,
-        image
+        description
       });
     }
   }
@@ -292,17 +276,6 @@ class Layout extends Component {
                 fullWidth
                 value={this.state.description}
                 onChange={this.handleInput}
-              />
-            </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <TextField
-                id="image"
-                type="file"
-                name="image"
-                className={classes.textField}
-                variant="outlined"
-                fullWidth
-                onChange={this.handleImage}
               />
             </Grid>
             <Grid item xs={12} md={6} lg={6}>
