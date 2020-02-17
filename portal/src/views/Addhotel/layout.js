@@ -282,29 +282,51 @@ class Layout extends Component {
             </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel id="slug">Room Categary</InputLabel>
-              <Select
-                name="slug"
-                id="slug"
-                variant="outlined"
-                fullWidth
-                value={this.state.slug}
-                onChange={this.handleInput}
-              >
-                <MenuItem value={'single-economy'}>Single Economy</MenuItem>
-                <MenuItem value={'single-basic'}>Single Basic</MenuItem>
-                <MenuItem value={'single-standard'}>Single Standard</MenuItem>
-                <MenuItem value={'single-deluxe'}>Single Deluxe</MenuItem>
-
-                <MenuItem value={'double-economy'}>Double Economy</MenuItem>
-                <MenuItem value={'double-basic'}>Double Basic</MenuItem>
-                <MenuItem value={'double-standard'}>Double Standard</MenuItem>
-                <MenuItem value={'double-deluxe'}>Double Deluxe</MenuItem>
-
-                <MenuItem value={'family-economy'}>Family Economy</MenuItem>
-                <MenuItem value={'family-basic'}>Family Basic</MenuItem>
-                <MenuItem value={'family-standard'}>Family Standard</MenuItem>
-                <MenuItem value={'family-deluxe'}>Family Deluxe</MenuItem>
-              </Select>
+              {this.state.type === 'single' && (
+                <Select
+                  name="slug"
+                  id="slug"
+                  variant="outlined"
+                  fullWidth
+                  value={this.state.slug}
+                  onChange={this.handleInput}
+                >
+                  <MenuItem value={'single-economy'}>Single Economy</MenuItem>
+                  <MenuItem value={'single-basic'}>Single Basic</MenuItem>
+                  <MenuItem value={'single-standard'}>Single Standard</MenuItem>
+                  <MenuItem value={'single-deluxe'}>Single Deluxe</MenuItem>
+                </Select>
+              )}
+              {this.state.type === 'double' && (
+                <Select
+                  name="slug"
+                  id="slug"
+                  variant="outlined"
+                  fullWidth
+                  value={this.state.slug}
+                  onChange={this.handleInput}
+                >
+                  <MenuItem value={'double-economy'}>Double Economy</MenuItem>
+                  <MenuItem value={'double-basic'}>Double Basic</MenuItem>
+                  <MenuItem value={'double-standard'}>Double Standard</MenuItem>
+                  <MenuItem value={'double-deluxe'}>Double Deluxe</MenuItem>
+                </Select>
+              )}
+              {this.state.type === 'family' && (
+                <Select
+                  name="slug"
+                  id="slug"
+                  variant="outlined"
+                  fullWidth
+                  value={this.state.slug}
+                  onChange={this.handleInput}
+                >
+                  <MenuItem value={'family-economy'}>Family Economy</MenuItem>
+                  <MenuItem value={'family-basic'}>Family Basic</MenuItem>
+                  <MenuItem value={'family-standard'}>Family Standard</MenuItem>
+                  <MenuItem value={'family-deluxe'}>Family Deluxe</MenuItem>
+                </Select>
+              )}
             </FormControl>
             <FormControl className={classes.formControl}>
               <InputLabel id="capacity">Capacity</InputLabel>
