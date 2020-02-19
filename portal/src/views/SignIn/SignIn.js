@@ -9,11 +9,17 @@ import {
   IconButton,
   TextField,
   Link,
-  Typography
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { AuthServices } from 'Services';
-
+import { Snackbar } from 'components';
+import axios from 'axios';
+import Config from 'Config';
 const schema = {
   username: {
     presence: { allowEmpty: false, message: 'is required' },
@@ -129,15 +135,21 @@ const SignIn = props => {
   const { history } = props;
 
   const classes = useStyles();
-
+  const [open, setOpen] = useState(false);
+  const [Forgat, setForgat] = useState({
+    Fusername: '',
+    isOpen: false,
+    message: '',
+    variant: 'error'
+  });
+  const [pass, setpass] = useState({
+    Fpassword: ''
+  });
   const [formState, setFormState] = useState({
     isValid: false,
     values: {},
     touched: {},
-    errors: {},
-    isOpen: false,
-    message: '',
-    variant: 'error'
+    errors: {}
   });
 
   useEffect(() => {
@@ -178,11 +190,53 @@ const SignIn = props => {
     const response = await AuthServices.managerlogin(username, password);
     if (!response.success) {
       const message = response.data.message;
-      alert(message[0]);
+      setForgat({
+        message: message[0],
+        isOpen: true,
+        variant: 'error'
+      });
     } else {
       const id = response.data.id;
-      console.log(id);
       history.push(`/hotels/${id}`);
+    }
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose1 = () => {
+    setOpen(false);
+  };
+
+  const handleClose = async () => {
+    const username = Forgat.Fusername;
+    const password = pass.Fpassword;
+    try {
+      const response = await axios.post(`${Config.SERVER_URL}/manager`, {
+        username,
+        password
+      });
+      const message = response.data.data.message;
+      setForgat({
+        message: message[0],
+        isOpen: true,
+        variant: 'error',
+        Fusername: ''
+      });
+      setpass({
+        Fpassword: ''
+      });
+      setOpen(false);
+    } catch (error) {
+      setForgat({
+        message: 'User does not exist',
+        isOpen: true,
+        variant: 'error',
+        Fusername: ''
+      });
+      setpass({
+        Fpassword: ''
+      });
     }
   };
 
@@ -191,6 +245,12 @@ const SignIn = props => {
 
   return (
     <div className={classes.root}>
+      <Snackbar
+        errorMessage={Forgat.message}
+        isOpen={Forgat.isOpen}
+        handleClose={() => setForgat({ isOpen: false })}
+        variant={Forgat.variant}
+      />
       <Grid className={classes.grid} container>
         <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
@@ -262,6 +322,50 @@ const SignIn = props => {
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="form-dialog-title"
+                >
+                  <DialogTitle id="form-dialog-title">
+                    Forgot your password ?
+                  </DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      variant="outlined"
+                      id="Fusername"
+                      name="Fusername"
+                      placeholder="Email Address"
+                      type="email"
+                      fullWidth
+                      value={Forgat.Fusername}
+                      onChange={e => setForgat({ Fusername: e.target.value })}
+                    />
+                  </DialogContent>
+                  <DialogContent>
+                    <TextField
+                      variant="outlined"
+                      name="Fpassword"
+                      id="Fpassword"
+                      margin="dense"
+                      placeholder="New password"
+                      type="password"
+                      fullWidth
+                      value={pass.Fpassword}
+                      onChange={e => setpass({ Fpassword: e.target.value })}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose1} color="primary">
+                      Close
+                    </Button>
+                    <Button onClick={handleClose} color="primary">
+                      Change
+                    </Button>
+                  </DialogActions>
+                </Dialog>
                 <Button
                   className={classes.signInButton}
                   color="primary"
@@ -278,6 +382,16 @@ const SignIn = props => {
                   <Link component={RouterLink} to="/sign-up" variant="h6">
                     Sign up
                   </Link>
+                </Typography>
+                <Typography color="textSecondary" variant="body1">
+                  <Button
+                    className={classes.signInButton}
+                    color="primary"
+                    onClick={handleClickOpen}
+                    variant="contained"
+                  >
+                    Forgot password
+                  </Button>
                 </Typography>
               </form>
             </div>

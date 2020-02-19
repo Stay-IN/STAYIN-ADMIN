@@ -239,16 +239,32 @@ const managersignup = async (req, res, next) => {
 };
 
 const getMById = async (req, res, next) => {
-  const { _id } = req.params;
-  const manager = await Manager.findOne({ _id });
-  if (manager) {
-    res.json({
+  const { username, password } = req.body;
+  const Umanager = await Manager.findOne({ username });
+  if (Umanager) {
+    manager = await Manager.findOneAndUpdate(
+      { username },
+      { $set: { password } },
+      { new: true }
+    );
+    res.status(200).json({
       code: 200,
       data: {
-        manager
+        message: ['password Updated']
       },
       success: true
     });
+    return;
+  }
+  if (!Umanager) {
+    res.status(404).json({
+      code: 404,
+      data: {
+        message: ['user does not exist']
+      },
+      success: false
+    });
+    return;
   }
 };
 

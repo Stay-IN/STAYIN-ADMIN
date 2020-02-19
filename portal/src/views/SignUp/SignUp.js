@@ -14,6 +14,7 @@ import {
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import axios from 'axios';
 import Config from 'Config';
+import { Snackbar } from 'components';
 
 const schema = {
   name: {
@@ -154,6 +155,11 @@ const SignUp = props => {
     touched: {},
     errors: {}
   });
+  const [Forgat, setForgat] = useState({
+    isOpen: false,
+    message: '',
+    variant: 'error'
+  });
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
@@ -199,8 +205,13 @@ const SignUp = props => {
       password
     });
     if (!response.data.success) {
-      const message = response.data.data.token;
-      alert(message);
+      const message = response.data.data.message;
+      setForgat({
+        message: message[0],
+        isOpen: true,
+        variant: 'error',
+        Fusername: ''
+      });
     } else {
       const id = response.data.data.id;
       history.push(`/hotels/${id}`);
@@ -212,6 +223,12 @@ const SignUp = props => {
 
   return (
     <div className={classes.root}>
+      <Snackbar
+        errorMessage={Forgat.message}
+        isOpen={Forgat.isOpen}
+        handleClose={() => setForgat({ isOpen: false })}
+        variant={Forgat.variant}
+      />
       <Grid className={classes.grid} container>
         <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
