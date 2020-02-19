@@ -1,5 +1,5 @@
 {
-  "port": 5000,
+  "port": 8080,
   "db": "mongodb://admin:admin123@ds023303.mlab.com:23303/stayin",
   "jwt": {
     "secret": "1234"
